@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { onceNextCssLayout, onceTransitionEnd } from 'web-animation-club';
 import PropTypes from 'prop-types';
 import { getClassName } from '../../helpers/components';
-import { mergeStyles, getAnyClassName } from '../../core/helpers';
 
 const ROOTELM = 'awssld';
 
@@ -10,7 +9,7 @@ export default function AutoplayHoc(WrappedComponent) {
   return class extends Component {
     static propTypes = {
       interval: PropTypes.number,
-      cssModule: PropTypes.any,
+      cssModule: PropTypes.object,
       play: PropTypes.bool,
       cancelOnInteraction: PropTypes.bool,
       timerHeight: PropTypes.string,
@@ -40,15 +39,9 @@ export default function AutoplayHoc(WrappedComponent) {
       super(props);
       this.forceStop = false;
       this.rootElement = props.rootElement || ROOTELM;
-      this.mergedStyles = mergeStyles(props.cssModule);
       this.state = {
         selected: 0,
       };
-    }
-
-    componentWillReceiveProps(newProps) {
-      this.mergedStyles = mergeStyles(newProps.cssModule);
-      this.checkStartStatus(newProps);
     }
 
     setInfo(info) {
@@ -63,38 +56,38 @@ export default function AutoplayHoc(WrappedComponent) {
         return;
       }
       let bar = element.querySelector(
-        `.${getAnyClassName(
-          getClassName(`${this.rootElement}__timer`, this.mergedStyles)
-        )}`
+        `.${getClassName(`${this.rootElement}__timer`, this.props.cssModule)}`
       );
-      const wrapper = element.querySelector('div');
-      if (!wrapper) {
-        return;
-      }
       if (!bar) {
         bar = this.createBarElement();
-        wrapper.appendChild(bar);
+        element.querySelector('div').appendChild(bar);
       }
       bar.classList.remove(
-        getClassName(`${this.rootElement}__timer--animated`, this.mergedStyles)
+        getClassName(
+          `${this.rootElement}__timer--animated`,
+          this.props.cssModule
+        )
       );
       onceNextCssLayout().then(() => {
         bar.classList.remove(
-          getClassName(`${this.rootElement}__timer--run`, this.mergedStyles)
+          getClassName(`${this.rootElement}__timer--run`, this.props.cssModule)
         );
         bar.classList.remove(
-          getClassName(`${this.rootElement}__timer--fast`, this.mergedStyles)
+          getClassName(`${this.rootElement}__timer--fast`, this.props.cssModule)
         );
         onceNextCssLayout().then(() => {
           bar.classList.add(
             getClassName(
               `${this.rootElement}__timer--animated`,
-              this.mergedStyles
+              this.props.cssModule
             )
           );
           onceNextCssLayout().then(() => {
             bar.classList.add(
-              getClassName(`${this.rootElement}__timer--run`, this.mergedStyles)
+              getClassName(
+                `${this.rootElement}__timer--run`,
+                this.props.cssModule
+              )
             );
             onceTransitionEnd(bar).then(() => {
               this.clearBarAnimation(bar);
@@ -110,31 +103,15 @@ export default function AutoplayHoc(WrappedComponent) {
 
     getBarFromSlide(slider) {
       const bar = slider.querySelector(
-        `.${getAnyClassName(
-          getClassName(`${this.rootElement}__timer`, this.mergedStyles)
-        )}`
+        `.${getClassName(`${this.rootElement}__timer`, this.props.cssModule)}`
       );
       return bar || null;
-    }
-
-    checkStartStatus(newProps) {
-      if (!this.currentInfo) {
-        return;
-      }
-      if (this.props.play !== newProps.play) {
-        if (newProps.play === true && this.currentInfo) {
-          this.setTimer(this.currentInfo.currentSlide);
-        }
-        if (newProps.play === false) {
-          this.forceClearBar(this.currentInfo);
-        }
-      }
     }
 
     createBarElement() {
       const bar = document.createElement('div');
       bar.classList.add(
-        getClassName(`${this.rootElement}__timer`, this.mergedStyles)
+        getClassName(`${this.rootElement}__timer`, this.props.cssModule)
       );
       bar.style.setProperty('--timer-delay', `${this.props.interval}ms`);
       bar.style.setProperty('--timer-height', this.props.timerHeight);
@@ -152,7 +129,7 @@ export default function AutoplayHoc(WrappedComponent) {
           bar.clearCssEndEvent();
         }
         bar.classList.add(
-          getClassName(`${this.rootElement}__timer--fast`, this.mergedStyles)
+          getClassName(`${this.rootElement}__timer--fast`, this.props.cssModule)
         );
         onceTransitionEnd(bar).then(() => {
           this.clearBarAnimation(bar);
@@ -162,16 +139,19 @@ export default function AutoplayHoc(WrappedComponent) {
 
     clearBarAnimation(bar) {
       bar.classList.remove(
-        getClassName(`${this.rootElement}__timer--animated`, this.mergedStyles)
+        getClassName(
+          `${this.rootElement}__timer--animated`,
+          this.props.cssModule
+        )
       );
     }
 
     restartBarAnimation(bar) {
       bar.classList.remove(
-        getClassName(`${this.rootElement}__timer--run`, this.mergedStyles)
+        getClassName(`${this.rootElement}__timer--run`, this.props.cssModule)
       );
       bar.classList.remove(
-        getClassName(`${this.rootElement}__timer--fast`, this.mergedStyles)
+        getClassName(`${this.rootElement}__timer--fast`, this.props.cssModule)
       );
     }
 
@@ -209,15 +189,12 @@ export default function AutoplayHoc(WrappedComponent) {
           {...extra}
           selected={this.state.selected}
           onFirstMount={info => {
+            if (!extra.startupScreen) {
+              this.setInfo(info);
+              this.setTimer(info.currentSlide);
+            }
             if (onFirstMount) {
               onFirstMount(info);
-            }
-            if (extra.startupScreen) {
-              return;
-            }
-            this.setInfo(info);
-            if (play === true) {
-              this.setTimer(info.currentSlide);
             }
           }}
           onTransitionStart={info => {
@@ -241,9 +218,7 @@ export default function AutoplayHoc(WrappedComponent) {
           }}
           onTransitionEnd={info => {
             this.setInfo(info);
-            if (play === true) {
-              this.setTimer(info.currentSlide);
-            }
+            this.setTimer(info.currentSlide);
             if (onTransitionEnd) {
               onTransitionEnd(info);
             }

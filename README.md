@@ -42,16 +42,16 @@ For analysing how the animations are built, please check out to [this folder](ht
 [<img width="400" alt="react-awesome-slider demo" src="https://github.com/rcaferati/react-awesome-slider/blob/master/demo/public/images/demo-open.gif?raw=true">](https://caferati.me/demo/react-awesome-slider)
 [<img width="400" alt="react-awesome-slider demo" src="https://github.com/rcaferati/react-awesome-slider/blob/master/demo/public/images/demo-fall.gif?raw=true">](https://caferati.me/demo/react-awesome-slider)
 
-### Cube animation recipe
+### Cube animation recipe with CSS Modules
 
 Checkout more recipes on the styled folder. For more animation recipes check out the [styled folder](https://github.com/rcaferati/react-awesome-slider/tree/master/src/styled).
 
 ```jsx
 import AwesomeSlider from 'react-awesome-slider';
-import 'react-awesome-slider/dist/custom-animations/cube-animation.css';
+import AwesomeSliderStyles from 'react-awesome-slider/src/styled/cube-animation';
 
 const slider = (
-  <AwesomeSlider animation="cubeAnimation">
+  <AwesomeSlider animation="cubeAnimation" cssModule={AwesomeSliderStyles}>
     <div data-src="/path/to/image-0.png" />
     <div data-src="/path/to/image-1.png" />
     <div data-src="/path/to/image-2.jpg" />
@@ -135,14 +135,10 @@ Note that on v3 there's an adition of the `animation` prop. The animation name i
 
 ```jsx
 import AwesomeSlider from 'react-awesome-slider';
-import CoreStyles from 'react-awesome-slider/src/core/styles.scss';
-import AnimationStyles from 'react-awesome-slider/src/styled/fold-out-animation/fold-out-animation.scss';
+import AwesomeSliderStyles from 'react-awesome-slider/src/styled/fold-out-animation';
 
 const slider = (
-  <AwesomeSlider
-    animation="foldOutAnimation"
-    cssModule={[coreStyles, animationStyles]}
-  >
+  <AwesomeSlider animation="foldOutAnimation" cssModule={AwesomeSliderStyles}>
     <div data-src="/path/to/image-0.png" />
     <div data-src="/path/to/image-1.png" />
     <div data-src="/path/to/image-2.jpg" />
@@ -172,36 +168,6 @@ const slider = (
 );
 ```
 
-### Using the Captioned HOC with plain CSS
-
-```jsx
-import AwesomeSlider from 'react-awesome-slider';
-import withCaption from 'react-awesome-slider/dist/captioned';
-import 'react-awesome-slider/dist/styles.css';
-import 'react-awesome-slider/dist/captioned.css';
-
-const CaptionedSlider = withCaption(AwesomeSlider);
-
-const component = (
-  <CaptionedSlider
-    startupScreen={StartupScreen}
-    cssModule={CaptionedStyles}
-    screens={[
-      {
-        backgroundColor: '#4a9c8c',
-        media: '/images/series/ricknmorty-3.png',
-        caption: 'I want to see what you got.',
-      },
-      {
-        backgroundColor: '#4a9c8c',
-        media: '/images/series/ricknmorty-3.png',
-        caption: "The answer is -- Don't think about it.",
-      },
-    ]}
-  />
-);
-```
-
 ## Key Features
 
 - Look and feel customisable and extendable via SASS and CSS Variables ([custom-properties](https://github.com/rcaferati/react-awesome-slider/blob/master/src/core/styles.scss#L48)) ([scss main file](https://github.com/rcaferati/react-awesome-slider/blob/master/src/core/styles.scss))
@@ -225,9 +191,8 @@ const component = (
 | fillParent          | `boolean`  |     `false`      | When set to true the slider will fill the dimensions of the parent element. Usefull for using it in full-screen mode.                                |
 | infinite            | `boolean`  |      `true`      | When set to true the slider will behave on an infinite fashion returing to the first slide after the last one.                                       |
 | startupScreen       |   `node`   |      `null`      | Set's the startup screen component to be shown before the first screen is loaded. It works like a pre-loading screen.                                |
-| startup             | `boolean`  |      `true`      | Used together with `startupScreen` controls whether or not the startupScreen should auto-start.                                                      |
+| startup             | `boolean`  |      `true`      | Used together with `startupScreen` controls weather or not the startupScreen should auto-start.                                                      |
 | transitionDelay     |  `number`  |       `0`        | Sets a delay in `ms` between the slide transitions. Useful if you're waiting for an exit animation to finish in the current slide.                   |
-| mobileTouch         | `boolean`  |      `true`      | When set to true activates a swipe touch effect to navigate on mobile devices.                                                                        |
 | buttons             | `boolean`  |      `true`      | Should render the default left and right navigation buttons.                                                                                         |
 | buttonContentRight  |   `node`   |      `null`      | Add content as children of the right button.                                                                                                         |
 | buttonContentLeft   |   `node`   |      `null`      | Add content as children of the left button.                                                                                                          |

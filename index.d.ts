@@ -6,23 +6,6 @@
 declare module 'react-awesome-slider' {
   import React, { Component } from 'react';
 
-  export interface AwesomeSliderInfo {
-    slides: number;
-    currentIndex: number;
-    currentSlide: HTMLElement;
-    currentMedia: React.ReactNode;
-    element: HTMLElement;
-  }
-
-  export interface AwesomeSliderRequestEventArgs extends AwesomeSliderInfo {
-    nextIndex: number;
-  }
-
-  export interface AwesomeSliderStartEventArgs extends AwesomeSliderRequestEventArgs {
-    nextSlide: HTMLElement;
-    nextMedia: React.ReactNode;
-  }
-  
   export interface AwesomeSliderProps {
     activityColor?: string;
     animation?: string;
@@ -40,13 +23,13 @@ declare module 'react-awesome-slider' {
     infinite?: boolean;
     media?: any;
     name?: string;
-    onFirstMount?(e: AwesomeSliderInfo): void;
+    onFirstMount?(): void;
     onLoadStart?(): void;
     onResetSlider?(): void;
     onStartupRelease?(): void;
-    onTransitionEnd?(e: AwesomeSliderInfo): void;
-    onTransitionRequest?(e: AwesomeSliderRequestEventArgs): void;
-    onTransitionStart?(e: AwesomeSliderStartEventArgs): void;
+    onTransitionEnd?(): void;
+    onTransitionRequest?(): void;
+    onTransitionStart?(): void;
     organicArrows?: boolean;
     rootElement?: string;
     selected?: string | number;
@@ -55,7 +38,6 @@ declare module 'react-awesome-slider' {
     startupScreen?: object;
     style?: object;
     transitionDelay?: number;
-    mobileTouch?: boolean;
   }
 
   export default class AwesomeSlider extends Component<

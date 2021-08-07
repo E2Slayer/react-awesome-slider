@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Styles from './styles.scss';
 
 export default function CaptionedHoc(WrappedComponent) {
   return class extends Component {
@@ -16,7 +17,7 @@ export default function CaptionedHoc(WrappedComponent) {
             backgroundColor: screen.backgroundColor,
           }}
         >
-          <div data-type="caption">
+          <div className={Styles.caption}>
             <p>{screen.caption}</p>
           </div>
         </div>

@@ -1,14 +1,14 @@
 {
   "name": "react-awesome-slider",
-  "version": "4.1.0",
+  "version": "3.3.0",
   "description": "React Awesome Slider is a 60fps performant, extendable, highly customisable, production ready React Component that renders a media (image/video) gallery slider carousel.",
   "main": "dist/index.js",
   "author": "Rafael Caferati",
   "license": "MIT",
-  "homepage": "https://github.com/E2Slayer/react-awesome-slider",
+  "homepage": "https://github.com/rcaferati/react-awesome-slider",
   "repository": {
     "type": "git",
-    "url": "https://github.com/E2Slayer/react-awesome-slider"
+    "url": "https://github.com/rcaferati/react-awesome-slider"
   },
   "bugs": {
     "url": "https://github.com/rcaferati/react-awesome-slider/issues"
@@ -16,7 +16,7 @@
   "scripts": {
     "start": "webpack-dev-server -d --config webpack.demo.config.js",
     "build": "webpack --mode production",
-    "build:scss": "webpack --mode production --config webpack.scss.config.js && rm ./dist/styles.js ./dist/lettering.js ./dist/captioned.js",
+    "build:scss": "webpack --mode production --config webpack.scss.config.js && rm ./dist/styles.js",
     "build:website": "webpack --mode production --config webpack.website.config.js",
     "build:server": "webpack --mode production --config webpack.server.config.js",
     "build:animations": "babel-node ./scss-builder.js",

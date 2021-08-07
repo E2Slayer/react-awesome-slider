@@ -5,8 +5,6 @@ const config = {
   entry: {
     index: ['./src/index.js'],
     autoplay: ['./src/hoc/autoplay/hoc.js'],
-    captioned: ['./src/hoc/captioned-images/hoc.js'],
-    lettering: ['./src/hoc/animated-lettering/hoc.js'],
     navigation: ['./src/hoc/navigation/index.js'],
   },
   output: {
