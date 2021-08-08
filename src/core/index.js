@@ -826,7 +826,7 @@ export default class AwesomeSlider extends React.Component {
       }
       return;
     }
-    if (abs >= 400) {
+    if (abs >= active.offsetWidth/2.0) {
       if (this.loading === false) {
         this.goTo({
           index: direction ? this.index + 1 : this.index - 1,
