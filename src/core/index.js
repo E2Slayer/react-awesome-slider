@@ -862,8 +862,18 @@ export default class AwesomeSlider extends React.Component {
 
     const active = this[this.active];
     const loader = this[this.loader];
-    active.style.transform = `translate3d(0px, 0, 0)`;
-    loader.style.transform = `translate3d(calc(-100%), 0, 0)`;
+    const direction = !(diff > 0);
+    const abs = Math.abs(diff);
+
+    if (abs >= 10) {
+      if (this.loading === false && abs < 130) {
+        active.style.transform = `translate3d(0px, 0, 0)`;
+        if(this.direction === true)
+          loader.style.transform = `translate3d(calc(100% + 0px), 0, 0)`;
+        else
+          loader.style.transform = `translate3d(calc(-100% + 0px), 0, 0)`;
+      }
+    }
 
     this.touchStartPoint = null;
     this.animating = true;
