@@ -837,7 +837,7 @@ export default class AwesomeSlider extends React.Component {
         diff += 10;
         if (Math.abs(diff) > active.offsetWidth) {
           diff = -active.offsetWidth;
-        } else if (diff > 0 || abs < 130) {
+        } else if (diff > 0) {
           diff = 0;
         }
         active.style.transform = `translate3d(${diff}px, 0, 0)`;
@@ -846,7 +846,7 @@ export default class AwesomeSlider extends React.Component {
         diff -= 10;
         if (Math.abs(diff) > active.offsetWidth) {
           diff = active.offsetWidth;
-        } else if (diff < 0 || abs < 130) {
+        } else if (diff < 0) {
           diff = 0;
         }
         active.style.transform = `translate3d(${diff}px, 0, 0)`;
@@ -859,6 +859,11 @@ export default class AwesomeSlider extends React.Component {
     if (this.animating || !this.touchStartPoint || !this.loading) {
       return;
     }
+
+    const active = this[this.active];
+    const loader = this[this.loader];
+    active.style.transform = `translate3d(0px, 0, 0)`;
+    loader.style.transform = `translate3d(calc(-100%), 0, 0)`;
 
     this.touchStartPoint = null;
     this.animating = true;
