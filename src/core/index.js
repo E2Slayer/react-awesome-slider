@@ -859,7 +859,7 @@ export default class AwesomeSlider extends React.Component {
     if (this.animating || !this.touchStartPoint || !this.loading) {
       return;
     }
-
+    let diff = native.touches[0].clientX - this.touchStartPoint;
     const active = this[this.active];
     const loader = this[this.loader];
     const direction = !(diff > 0);
