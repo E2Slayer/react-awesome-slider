@@ -856,23 +856,15 @@ export default class AwesomeSlider extends React.Component {
   };
 
   touchEnd = () => {
-    if (this.animating || !this.touchStartPoint || !this.loading) {
-      return;
-    }
-    let diff = native.touches[0].clientX - this.touchStartPoint;
     const active = this[this.active];
     const loader = this[this.loader];
-    const direction = !(diff > 0);
-    const abs = Math.abs(diff);
-
-    if (abs >= 10) {
-      if (this.loading === false && abs < 130) {
-        active.style.transform = `translate3d(0px, 0, 0)`;
-        if(this.direction === true)
-          loader.style.transform = `translate3d(calc(100% + 0px), 0, 0)`;
-        else
-          loader.style.transform = `translate3d(calc(-100% + 0px), 0, 0)`;
-      }
+    active.style.transform = `translate3d(0px, 0, 0)`;
+    if(this.direction === true)
+      loader.style.transform = `translate3d(calc(100% + 0px), 0, 0)`;
+    else
+      loader.style.transform = `translate3d(calc(-100% + 0px), 0, 0)`;
+    if (this.animating || !this.touchStartPoint || !this.loading) {
+      return;
     }
 
     this.touchStartPoint = null;
