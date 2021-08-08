@@ -837,7 +837,7 @@ export default class AwesomeSlider extends React.Component {
         diff += 10;
         if (Math.abs(diff) > active.offsetWidth) {
           diff = -active.offsetWidth;
-        } else if (diff > 0) {
+        } else if (diff > 0 || abs < 130) {
           diff = 0;
         }
         active.style.transform = `translate3d(${diff}px, 0, 0)`;
@@ -846,7 +846,7 @@ export default class AwesomeSlider extends React.Component {
         diff -= 10;
         if (Math.abs(diff) > active.offsetWidth) {
           diff = active.offsetWidth;
-        } else if (diff < 0) {
+        } else if (diff < 0 || abs < 130) {
           diff = 0;
         }
         active.style.transform = `translate3d(${diff}px, 0, 0)`;
